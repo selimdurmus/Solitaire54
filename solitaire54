@@ -6,7 +6,7 @@
 			name="viewport"
 			content="width=device-width, initial-scale=1.0, user-scalable=no"
 		/>
-		<title>Solitaire54 v1.1.4 MyBetaSoft</title>
+		<title>Solitaire54 v1.1.6 MyBetaSoft</title>
 		<!-- 1. CSS STYLES -->
 		<style>
 			:root {
@@ -14,7 +14,6 @@
 			  --arkaplan-rengi: #1a3c0e;
 			  --deste-rengi: #4a7c2a;
 			}
-
 			.game-table { background-color: var(--masa-rengi); }
 			body { background-color: var(--arkaplan-rengi); }
 			.card-back { background-color: var(--deste-rengi); }
@@ -22,7 +21,6 @@
 
 		<style>
 			*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-
 			:root{
 			  --green:#236b3a;--felt:#2a7d46;
 			  --rank-size:12px;--suit-sm:10px;--suit-lg:24px;
@@ -37,6 +35,10 @@
 			  user-select:none;-webkit-user-select:none;
 			  overflow-x:hidden;overflow-y:auto;
 			}
+			
+			canvas {
+            filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.2));
+        	}
 
 			/* ── Header ── */
 			#header{
@@ -464,7 +466,7 @@
 		<!-- ── Header ── -->
 		<div id="header">
 			<div id="header-top">
-				<span id="title">Solitaire54 v1.1.4<br />MyBetaSoft</span>
+				<span id="title">Solitaire54 v1.1.6<br />MyBetaSoft</span>
 				<div class="hsp"></div>
 				<span class="stat">🏆&thinsp;<span id="sv">0</span></span>
 				<span class="stat">↕&thinsp;<span id="mv">0</span></span>
@@ -801,13 +803,12 @@
 
 		<!-- ── Splash Screen ── -->
 		<div id="splash-overlay">
-			<div id="splash-cards">
-				<div class="sp-card" style="color:#c40000;">♥</div>
-				<div class="sp-card" style="color:#111;">♠</div>
-				<div class="sp-card" style="color:#c40000;">♦</div>
-				<div class="sp-card" style="color:#111;">♣</div>
-			</div>
-			<div id="splash-title">Solitaire54 v1.1.4</div>
+			<canvas id="solitaireLogo"
+        		width="100"
+        		height="100"
+        		style="margin-bottom:10px;">
+			</canvas>
+			<div id="splash-title">Solitaire54 v1.1.6</div>
 			<div id="splash-sub">MyBetaSoft</div>
 			<div id="ad-slot">REKLAM ALANI</div>
 			<button id="splash-btn" onclick="startGame()">Oyna</button>
@@ -822,7 +823,7 @@
 			<div
 				style="background:#fff; color:#111; width:85vw; max-width:340px; border-radius:18px; padding:24px; text-align:center; font-family:-apple-system,sans-serif;"
 			>
-				<h2 style="margin-bottom:14px;">Solitaire54 v1.1.4</h2>
+				<h2 style="margin-bottom:14px;">Solitaire54 v1.1.6</h2>
 
 				<div style="line-height:1.7; font-size:14px;">
 					<strong>Selim DURMUŞ</strong><br />
@@ -2052,6 +2053,89 @@
 			  setTimeout(()=>{
 			    overlay.style.display = 'none';
 			    newGame();
+				function drawSplashLogo(){
+ const canvas=document.getElementById('solitaireLogo');
+ if(!canvas) return;
+
+ const ctx=canvas.getContext('2d');
+ const scale=canvas.width/400;
+
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+ ctx.save();
+ ctx.scale(scale,scale);
+
+ const colorGreen='#014A28';
+ const colorBlack='#1A1A1A';
+ const colorWhite='#FAFAFA';
+
+ ctx.fillStyle=colorGreen;
+ ctx.strokeStyle=colorBlack;
+ ctx.lineWidth=12;
+
+ ctx.beginPath();
+ ctx.moveTo(80,50);
+ ctx.lineTo(320,50);
+ ctx.lineTo(320,200);
+ ctx.bezierCurveTo(320,320,200,360,200,380);
+ ctx.bezierCurveTo(200,360,80,320,80,200);
+ ctx.closePath();
+
+ ctx.fill();
+ ctx.stroke();
+
+ ctx.strokeStyle=colorWhite;
+ ctx.lineWidth=3;
+ ctx.stroke();
+
+ ctx.save();
+ ctx.translate(200,200);
+ ctx.rotate(-15*Math.PI/180);
+
+ ctx.fillStyle=colorWhite;
+ ctx.strokeStyle=colorBlack;
+ ctx.lineWidth=4;
+
+ ctx.beginPath();
+ ctx.roundRect(-70,-100,140,200,12);
+ ctx.fill();
+ ctx.stroke();
+
+ ctx.restore();
+
+ ctx.save();
+ ctx.translate(200,215);
+ ctx.rotate(10*Math.PI/180);
+
+ ctx.fillStyle=colorWhite;
+ ctx.strokeStyle=colorGreen;
+ ctx.lineWidth=6;
+
+ ctx.beginPath();
+ ctx.roundRect(-75,-105,150,210,12);
+ ctx.fill();
+ ctx.stroke();
+
+ ctx.textAlign='center';
+ ctx.textBaseline='middle';
+
+ ctx.font='bold 90px Arial Black';
+ ctx.fillStyle=colorBlack;
+ ctx.fillText('S',-20,-20);
+
+ ctx.font='bold 60px Arial Black';
+
+ ctx.lineWidth=8;
+ ctx.strokeStyle=colorWhite;
+ ctx.strokeText('54',25,25);
+
+ ctx.fillStyle=colorGreen;
+ ctx.fillText('54',25,25);
+
+ ctx.restore();
+ ctx.restore();
+}
+
+window.addEventListener('load', drawSplashLogo);
 			  }, 400);
 			}
 
@@ -2124,5 +2208,127 @@
 			  });
 			}
 		</script>
+		<script>
+        // Hedef tuval boyutu (Piksel olarak)
+		const hedefGenislik = 150;
+		const hedefYukseklik = 150;
+
+		// Orijinal tasarımın temel aldığı boyut (Orijinal çizim koordinatlarının tabanı)
+		const orijinalTasarimTabani = 400; // BOŞLUKLAR VE TÜRKÇE KARAKTERLER DÜZELTİLDİ
+
+		// Ölçek oranını hesaplayın (Çizimin tuvale sığdırılması için)
+		const olcek = hedefGenislik / orijinalTasarimTabani; // Örneğin 100/400 = 0.25
+
+		// Canvas'ı ve context'i alın
+		const canvas = document.getElementById('solitaireLogo');
+
+		// Canvas boyutlarını dinamik olarak JavaScript ile ayarlayalım (HMTL'deki width/height'ı ezer)
+		canvas.width = hedefGenislik;
+		canvas.height = hedefYukseklik;
+		const ctx = canvas.getContext('2d');
+
+		// --- Orijinal Çizim Komutlarının Ölçeklenmiş Hali ---
+
+		// Renk Paleti (Turn 3 kaynağından alınmıştır)
+		const colorGreen = '#014A28';
+		const colorBlack = '#1A1A1A';
+		const colorWhite = '#FAFAFA';
+
+		// 1. DIŞ ÇERÇEVE: ŞÖVALYE KALKANI (Ölçeklenmiş)
+		ctx.fillStyle = colorGreen;
+		ctx.strokeStyle = colorBlack;
+		ctx.lineWidth = 12 * olcek; // Orijinal 12, şimdi ölçekli
+
+		ctx.beginPath();
+		ctx.moveTo(80 * olcek, 50 * olcek); // Koordinatlar ölçek ile çarpılır
+		ctx.lineTo(320 * olcek, 50 * olcek);
+		ctx.lineTo(320 * olcek, 200 * olcek);
+
+		// Orijinal bezier koordinatları: 320, 320, 200, 360, 200, 380
+		ctx.bezierCurveTo(320 * olcek, 320 * olcek, 200 * olcek, 360 * olcek, 200 * olcek, 380 * olcek);
+
+		// Orijinal bezier koordinatları: 200, 360, 80, 320, 80, 200
+		ctx.bezierCurveTo(200 * olcek, 360 * olcek, 80 * olcek, 320 * olcek, 80 * olcek, 200 * olcek);
+		ctx.lineTo(80 * olcek, 50 * olcek);
+		ctx.closePath();
+
+		ctx.fill();
+		ctx.stroke();
+
+		// Estetik iç çizgi (Ölçeklenmiş)
+		ctx.strokeStyle = colorWhite;
+		ctx.lineWidth = 3 * olcek; // Orijinal 3, şimdi ölçekli
+		ctx.stroke();
+
+		// 2. ARKA KART (Ölçeklenmiş ve Dinamik Ortalanmış)
+		ctx.save();
+
+		// Orijinal translate 200, 200 tuvalin merkezidir
+		ctx.translate(hedefGenislik / 2, hedefYukseklik / 2); // Dinamik merkez
+		ctx.rotate(-15 * Math.PI / 180);
+
+		ctx.fillStyle = colorWhite;
+		ctx.strokeStyle = colorBlack;
+		ctx.lineWidth = 4 * olcek; // Orijinal 4, şimdi ölçekli
+
+		ctx.beginPath();
+		// Orijinal roundRect boyutları: -70, -100, 140, 200, 12
+
+		// rRect komutu Turn 3 kod snippet'inde sağlanmıştır
+		ctx.roundRect(-70 * olcek, -100 * olcek, 140 * olcek, 200 * olcek, 12 * olcek);
+		ctx.fill();
+		ctx.stroke();
+		ctx.restore();
+
+		// 3. ÖN KART (Ölçeklenmiş ve Dinamik Konumlandırılmış)
+		ctx.save();
+
+		// Orijinal translate 200, 215 tuvalin merkezine göre +15 dikey offsettir
+		const dikeyOffset = 15 * olcek; // Orijinal dikey kayma ölçeklendi
+		ctx.translate(hedefGenislik / 2, (hedefYukseklik / 2) + dikeyOffset); // Dinamik merkez + ölçekli offset
+		ctx.rotate(10 * Math.PI / 180);
+
+		ctx.fillStyle = colorWhite;
+		ctx.strokeStyle = colorGreen;
+		ctx.lineWidth = 6 * olcek; // Orijinal 6, şimdi ölçekli
+
+		ctx.beginPath();
+
+		// Orijinal roundRect boyutları: -75, -105, 150, 210, 12
+		ctx.roundRect(-75 * olcek, -105 * olcek, 150 * olcek, 210 * olcek, 12 * olcek);
+		ctx.fill();
+		ctx.stroke();
+
+		// 4. İÇ İÇE GEÇMİŞ "S" VE "54" (Tipografi Ölçeklenmiş)
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+
+		// 'S' Harfi (Büyük ve Siyah, Ölçeklenmiş Font)
+		// Orijinal font boyutu: 90px
+		const fontBoyutuS = 90 * olcek; // Örneğin 90 * 0.25 = 22.5px
+		ctx.font = 'bold ' + fontBoyutuS + 'px "Arial Black", Arial, sans-serif';
+		ctx.fillStyle = colorBlack;
+
+		// Orijinal fillText pozisyonu: -20, -20
+		ctx.fillText('S', -20 * olcek, -20 * olcek);
+
+		// '54' Rakamı (Yeşil, Ölçeklenmiş Font)
+		// Orijinal font boyutu: 60px
+		const fontBoyutu54 = 60 * olcek; // Örneğin 60 * 0.25 = 15px
+		ctx.font = 'bold ' + fontBoyutu54 + 'px "Arial Black", Arial, sans-serif';
+
+		// 54'ün etrafına kontur (Ölçeklenmiş)
+		// Orijinal strokeText pozisyonu: 25, 25
+		// OrijinallineWidth: 8
+		ctx.lineWidth = 8 * olcek; // Orijinal 8, şimdi ölçekli
+		ctx.strokeStyle = colorWhite;
+		ctx.strokeText('54', 25 * olcek, 25 * olcek);
+
+		// 54'ün kendisi (Dinamik yerleşim)
+		ctx.fillStyle = colorGreen;
+		ctx.fillText('54', 25 * olcek, 25 * olcek);
+
+		ctx.restore();
+    </script>
 	</body>
 </html>
