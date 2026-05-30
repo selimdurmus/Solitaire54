@@ -1693,12 +1693,42 @@
 
 			// Check if any card still in stock or waste can move somewhere
 			function stockHasUsefulCard(){
+			  if(S.difficulty === 'hard') return draw3HasUsefulWasteTop();
 			  const allUnseen = [...stock, ...waste];
 			  for(const card of allUnseen){
 			    const c = {...card, up:true};
 			    for(let fi=0;fi<4;fi++) if(canFnd(c,fi)) return true;
 			    for(let tc=0;tc<7;tc++) if(canTab(c,tc)) return true;
 			  }
+			  return false;
+			}
+
+			function draw3HasUsefulWasteTop(){
+			  const useful = c => {
+			    for(let fi=0;fi<4;fi++) if(canFnd(c,fi)) return true;
+			    for(let tc=0;tc<7;tc++) if(canTab(c,tc)) return true;
+			    return false;
+			  };
+
+			  // Mevcut waste tepesini kontrol et
+			  if(waste.length>0 && useful(waste[waste.length-1])) return true;
+
+			  // Draw-3 simülasyonu: stocktan hamle yapmadan geçerek erişilebilir waste tepelerini bul
+			  const simStock=[...stock];
+			  while(simStock.length>0){
+			    let top=null;
+			    for(let i=0;i<3&&simStock.length>0;i++) top=simStock.pop();
+			    if(top && useful(top)) return true;
+			  }
+
+			  // Recycle simülasyonu: tüm waste+stock ters çevrilip yeni stock olarak işlenir
+			  const recycled=[...waste,...[...stock].reverse()].reverse();
+			  while(recycled.length>0){
+			    let top=null;
+			    for(let i=0;i<3&&recycled.length>0;i++) top=recycled.pop();
+			    if(top && useful(top)) return true;
+			  }
+
 			  return false;
 			}
 
