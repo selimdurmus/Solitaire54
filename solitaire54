@@ -37,7 +37,7 @@
 			}
 			
 			canvas {
-            filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.2));
+            filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.2));
         	}
 
 			/* ── Header ── */
@@ -804,9 +804,9 @@
 		<!-- ── Splash Screen ── -->
 		<div id="splash-overlay">
 			<canvas id="solitaireLogo"
-        		width="100"
-        		height="100"
-        		style="margin-bottom:5px;">
+        		width="80"
+        		height="80"
+        		style="margin-bottom:0px;">
 			</canvas>
 			<div id="splash-title">Solitaire54 v1.1.6</div>
 			<div id="splash-sub">MyBetaSoft</div>
@@ -2210,8 +2210,8 @@ window.addEventListener('load', drawSplashLogo);
 		</script>
 		<script>
         // Hedef tuval boyutu (Piksel olarak)
-		const hedefGenislik = 100;
-		const hedefYukseklik = 100;
+		const hedefGenislik = 80;
+		const hedefYukseklik = 80;
 
 		// Orijinal tasarımın temel aldığı boyut (Orijinal çizim koordinatlarının tabanı)
 		const orijinalTasarimTabani = 400; // BOŞLUKLAR VE TÜRKÇE KARAKTERLER DÜZELTİLDİ
