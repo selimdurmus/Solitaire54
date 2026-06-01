@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 	<head>
@@ -6,7 +7,7 @@
 			name="viewport"
 			content="width=device-width, initial-scale=1.0, user-scalable=no"
 		/>
-		<title>Solitaire54 v1.1.6 MyBetaSoft</title>
+		<title>Solitaire54 v1.1.7 MyBetaSoft</title>
 		<!-- 1. CSS STYLES -->
 		<style>
 			:root {
@@ -410,13 +411,14 @@
 
 			  #header {
 			    width: 100%;
-			    max-width: 1000px;
+			    max-width: 1200px;
 			    margin-left: auto;
 			    margin-right: auto;
 			  }
 
 			  #game {
-			    max-width: 1000px;
+				width: min(1200px, 95vw);
+				max-width: none;
 			  }
 
 			  #top-row, #tab-row {
@@ -438,13 +440,15 @@
 			  }
 
 			  .pile {
-			    max-width: 130px;  /* Kartlar çok fazla büyümesin */
+			    max-width: 160px;  /* Kartlar çok fazla büyümesin */
 			  }
 
 			  :root {
-			    --rank-size: 18px;
-			    --suit-sm: 14px;
-			    --suit-lg: 38px;
+			    :root {
+				--rank-size: min(22px, 2vw);
+				--suit-sm: min(18px, 1.8vw);
+				--suit-lg: min(48px, 5vw);
+}
 			  }
 			}
 
@@ -461,12 +465,14 @@
 			  }
 			}
 		</style>
+	<!-- Load the main AdSense library asynchronously -->
+    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
 	</head>
 	<body>
 		<!-- ── Header ── -->
 		<div id="header">
 			<div id="header-top">
-				<span id="title">Solitaire54 v1.1.6<br />MyBetaSoft</span>
+				<span id="title">Solitaire54 v1.1.7<br />MyBetaSoft</span>
 				<div class="hsp"></div>
 				<span class="stat">🏆&thinsp;<span id="sv">0</span></span>
 				<span class="stat">↕&thinsp;<span id="mv">0</span></span>
@@ -808,9 +814,23 @@
         		height="80"
         		style="margin-bottom:0px;">
 			</canvas>
-			<div id="splash-title">Solitaire54 v1.1.6</div>
+			<div id="splash-title">Solitaire54 v1.1.7</div>
 			<div id="splash-sub">MyBetaSoft</div>
-			<div id="ad-slot">REKLAM ALANI</div>
+			<a href="https://dunyaninhaberleri.com" target="_blank">
+			<div id="ad-slot"><img src="https://mybetasoftware.com/oyunlar/img/dunyaninhaberleri-ad.jpg" widht="350" height="400"></div>
+			</a>
+	<!-- AdSense structural unit placeholder -->
+		<ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4843251202084847"
+         data-ad-slot="f08c47fec0942fa0"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    
+    <!-- Trigger the ad instantiation -->
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 			<button id="splash-btn" onclick="startGame()">Oyna</button>
 			<div id="splash-diff"></div>
 		</div>
@@ -823,7 +843,7 @@
 			<div
 				style="background:#fff; color:#111; width:85vw; max-width:340px; border-radius:18px; padding:24px; text-align:center; font-family:-apple-system,sans-serif;"
 			>
-				<h2 style="margin-bottom:14px;">Solitaire54 v1.1.6</h2>
+				<h2 style="margin-bottom:14px;">Solitaire54 v1.1.7</h2>
 
 				<div style="line-height:1.7; font-size:14px;">
 					<strong>Selim DURMUŞ</strong><br />
@@ -1914,13 +1934,13 @@
 
 			  // Genişliğe göre yükseklik hesapla (5:7 oranı)
 			  if (pileWidth > 0) {
-			    cardH = pileWidth * 1.4;
+			    cardH = pileWidth * 1.8;
 			  } else {
 			    cardH = 70; // fallback
 			  }
 
 			  // Maksimum yükseklik sınırı koy (tablet/bilgisayarda çok büyümesin)
-			  const maxCardH = window.innerWidth >= 1024 ? 110 : 130;
+			  const maxCardH = window.innerWidth >= 1024 ? 180 : 130;
 			  if (cardH > maxCardH) cardH = maxCardH;
 
 			  // Yazı boyutlarını kart boyutuna göre orantılı ayarla
@@ -1932,6 +1952,12 @@
 			  root.style.setProperty('--rank-size', rankSize + 'px');
 			  root.style.setProperty('--suit-sm', suitSmSize + 'px');
 			  root.style.setProperty('--suit-lg', suitLgSize + 'px');
+			  
+			  console.log(
+			"Ekran:", window.innerWidth,
+			"Pile Width:", pileWidth,
+			"CardH:", cardH
+);
 			}
 			function colOff(col,idx){
 			  const fd=Math.max(12,cardH*0.18), fu=Math.max(22,cardH*0.33);
