@@ -1275,32 +1275,33 @@
 
             /* ══ AUTO → FOUNDATION / TABLEAU ══════════════════════════════ */
             function tryAutoMove(loc, col, idx) {
-                // Sadece en üstteki açık karta uygulanır
-                if (loc === 'T' && idx !== tab[col].length - 1) return false;
                 let card;
                 if      (loc === 'W') card = waste.length    ? waste[waste.length - 1]         : null;
                 else if (loc === 'F') card = fnd[col].length ? fnd[col][fnd[col].length - 1]   : null;
                 else if (loc === 'T') card = tab[col][idx]   || null;
                 if (!card?.up) return false;
 
-                const from = {loc, col, idx};
+                const from      = {loc, col, idx};
+                const isTopCard = loc !== 'T' || idx === tab[col].length - 1;
 
-                // 1. Foundation'a gidebilir mi?
-                for (let fi = 0; fi < 4; fi++) {
-                    if (tryMove(from, 'F', fi)) {
-                        sel = null; render(); updateHeader(); afterMove(); checkWin();
-                        return true;
+                // 1. Foundation'a gidebilir mi? (sadece tek kart — en üstteki)
+                if (isTopCard) {
+                    for (let fi = 0; fi < 4; fi++) {
+                        if (tryMove(from, 'F', fi)) {
+                            sel = null; render(); updateHeader(); afterMove(); checkWin();
+                            return true;
+                        }
                     }
                 }
 
-                // 2. Tableau'da açık kart üstüne gidebilir mi?
+                // 2. Tableau'da gidebilir mi? (seri olarak da taşınır)
                 // Boş kolona K: waste'ten veya altında kapalı kart varsa otomatik gitsin
                 const hasHiddenBelow = card.r === 13 && (
                     loc !== 'T' || (idx > 0 && !tab[col][idx - 1].up)
                 );
                 for (let tc = 0; tc < 7; tc++) {
-                    if (loc === 'T' && tc === col) continue;                          // aynı kolon atla
-                    if (tab[tc].length === 0 && !hasHiddenBelow) continue;            // boş kolona sadece altı kapalıysa git
+                    if (loc === 'T' && tc === col) continue;               // aynı kolon atla
+                    if (tab[tc].length === 0 && !hasHiddenBelow) continue; // boş kolona sadece K (uygun koşulda)
                     if (tryMove(from, 'T', tc)) {
                         sel = null; render(); updateHeader(); afterMove(); checkWin();
                         return true;
