@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-        <title>Solitaire54 v1.1.8 MyBetaSoft</title>
+        <title>Solitaire54 v1.2.0 MyBetaSoft</title>
 
         <style>
             *,*::before,*::after {
@@ -596,7 +596,7 @@
         <!-- ── Header ── -->
         <div id="header">
             <div id="header-top">
-                <span id="title">Solitaire54 v1.1.8<br />MyBetaSoft</span>
+                <span id="title">Solitaire54 v1.2.0<br />MyBetaSoft</span>
                 <div class="hsp"></div>
                 <span class="stat">🏆&thinsp;<span id="sv">0</span></span>
                 <span class="stat">↕&thinsp;<span id="mv">0</span></span>
@@ -791,7 +791,7 @@
         <!-- ── Splash Screen ── -->
         <div id="splash-overlay">
             <canvas id="solitaireLogo" width="80" height="80" style="margin-bottom:0px;"></canvas>
-            <div id="splash-title">Solitaire54 v1.1.8</div>
+            <div id="splash-title">Solitaire54 v1.2.0</div>
             <div id="splash-sub">MyBetaSoft</div>
             <a href="https://dunyaninhaberleri.com" target="_blank">
                 <div id="ad-slot">
@@ -811,7 +811,7 @@
         <!-- ── Credits ── -->
         <div id="credits-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.65); z-index:1200; align-items:center; justify-content:center;">
             <div style="background:#fff; color:#111; width:85vw; max-width:340px; border-radius:18px; padding:24px; text-align:center; font-family:-apple-system,sans-serif;">
-                <h2 style="margin-bottom:14px;">Solitaire54 v1.1.8</h2>
+                <h2 style="margin-bottom:14px;">Solitaire54 v1.2.0</h2>
                 <div style="line-height:1.7; font-size:14px;">
                     <strong>Selim DURMUŞ</strong><br />
                     <strong>Yavuz Selim DURMUŞ</strong>
@@ -1294,8 +1294,10 @@
                 }
 
                 // 2. Tableau'da açık kart üstüne gidebilir mi?
-                // Boş kolona K: yalnızca altında kapalı kart varsa otomatik gitsin
-                const hasHiddenBelow = loc === 'T' && idx > 0 && !tab[col][idx - 1].up;
+                // Boş kolona K: waste'ten veya altında kapalı kart varsa otomatik gitsin
+                const hasHiddenBelow = card.r === 13 && (
+                    loc !== 'T' || (idx > 0 && !tab[col][idx - 1].up)
+                );
                 for (let tc = 0; tc < 7; tc++) {
                     if (loc === 'T' && tc === col) continue;                          // aynı kolon atla
                     if (tab[tc].length === 0 && !hasHiddenBelow) continue;            // boş kolona sadece altı kapalıysa git
