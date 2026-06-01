@@ -1294,9 +1294,11 @@
                 }
 
                 // 2. Tableau'da açık kart üstüne gidebilir mi?
+                // Boş kolona K: yalnızca altında kapalı kart varsa otomatik gitsin
+                const hasHiddenBelow = loc === 'T' && idx > 0 && !tab[col][idx - 1].up;
                 for (let tc = 0; tc < 7; tc++) {
-                    if (loc === 'T' && tc === col) continue;  // aynı kolon atla
-                    if (tab[tc].length === 0) continue;       // boş kolonları atla (K için ayrıca seçilsin)
+                    if (loc === 'T' && tc === col) continue;                          // aynı kolon atla
+                    if (tab[tc].length === 0 && !hasHiddenBelow) continue;            // boş kolona sadece altı kapalıysa git
                     if (tryMove(from, 'T', tc)) {
                         sel = null; render(); updateHeader(); afterMove(); checkWin();
                         return true;
